@@ -50,7 +50,8 @@
           ],
           "message": "build(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
-      ]
+      ],
+      "semantic-release-plugin-github-breaking-version-tag"
     ]
   }
 }
