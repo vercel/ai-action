@@ -1,4 +1,4 @@
-name: "AI"
+name: "vercel-ai"
 description: "GitHub Action to interact with different AI model providers."
 author: "Gregor Martynus"
 branding:
