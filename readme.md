@@ -9,11 +9,11 @@ GitHub Action to interact with different AI model providers.
 In order to use this action, you need to 
 
 1. [create an API KEY for the AI Gateway](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%2Fapi-keys)
-2. [Pick one of the supported models](https://vercel.com/ai-gateway/models)
+2. [pick one of the supported models](https://vercel.com/ai-gateway/models)
 
 
 ```yaml
-name: Run tests on staging
+name: Minimal usage example
 on:
   push:
     branches:
