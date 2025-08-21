@@ -23,7 +23,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: gr2m/ai-action@v2
+      - uses: gr2m/ai-action@v1
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
