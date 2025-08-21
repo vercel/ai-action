@@ -1,0 +1,22 @@
+name: "AI"
+description: "GitHub Action to interact with different AI model providers."
+author: "Gregor Martynus"
+branding:
+  icon: "triangle"
+  color: "black"
+inputs:
+  prompt:
+    description: "The input prompt to generate the text from"
+    required: true
+  api-key: 
+    description: "An API KEY for the AI Gateway: https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%2Fapi-keys"
+    required: true
+  model: 
+    description: "An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models"
+    required: true
+outputs:
+  text:
+    description: "GitHub installation access token"
+runs:
+  using: "node24"
+  main: "dist/main.cjs"
