@@ -23,7 +23,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v1
+      - uses: vercel/ai-action@v2
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
