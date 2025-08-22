@@ -47,8 +47,6 @@ The input prompt to generate the text from
 An identifier from the list of provider models supported by the AI Gateway:
 https://vercel.com/ai-gateway/models
 
-**Optional:** The URL of the GitHub REST API. Defaults to the URL of the GitHub Rest API where the workflow is run from.
-
 ## Outputs
 
 ### `text`
