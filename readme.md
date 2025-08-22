@@ -1,6 +1,6 @@
 # AI Action
 
-[![test](https://github.com/gr2m/ai-action/actions/workflows/test.yml/badge.svg)](https://github.com/gr2m/ai-action/actions/workflows/test.yml)
+[![test](https://github.com/vercel/ai-action/actions/workflows/test.yml/badge.svg)](https://github.com/vercel/ai-action/actions/workflows/test.yml)
 
 GitHub Action to interact with different AI model providers.
 
@@ -23,7 +23,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: gr2m/ai-action@v1
+      - uses: vercel/ai-action@v1
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
