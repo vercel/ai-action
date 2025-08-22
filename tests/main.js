@@ -4,7 +4,7 @@ import { MockAgent, setGlobalDispatcher } from "undici";
 
 export const DEFAULT_ENV = {
   GITHUB_REPOSITORY_OWNER: "gr2m",
-  GITHUB_REPOSITORY: "gr2m/ai-action",
+  GITHUB_REPOSITORY: "vercel/ai-action",
 };
 
 export async function test(cb = (_mockPool) => {}, env = DEFAULT_ENV) {
