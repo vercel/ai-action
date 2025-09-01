@@ -86,7 +86,7 @@ jobs:
           echo '${{ steps.recipe.outputs.json }}'
           
           # Parse and use specific fields
-          echo "Recipe name: $(echo '${{ steps.recipe.outputs.json }}' | jq -r '.recipe.name')"
+          echo "Recipe name: ${{ fromJson(steps.recipe.outputs.json).recipe.name }}"
 ```
 
 ## Inputs
