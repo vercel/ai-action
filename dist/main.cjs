@@ -21211,9 +21211,9 @@ var BIGINT_FORMAT_RANGES = {
   int64: [/* @__PURE__ */ BigInt("-9223372036854775808"), /* @__PURE__ */ BigInt("9223372036854775807")],
   uint64: [/* @__PURE__ */ BigInt(0), /* @__PURE__ */ BigInt("18446744073709551615")]
 };
-function pick(schema, mask) {
+function pick(schema2, mask) {
   const newShape = {};
-  const currDef = schema._zod.def;
+  const currDef = schema2._zod.def;
   for (const key in mask) {
     if (!(key in currDef.shape)) {
       throw new Error(`Unrecognized key: "${key}"`);
@@ -21222,15 +21222,15 @@ function pick(schema, mask) {
       continue;
     newShape[key] = currDef.shape[key];
   }
-  return clone(schema, {
-    ...schema._zod.def,
+  return clone(schema2, {
+    ...schema2._zod.def,
     shape: newShape,
     checks: []
   });
 }
-function omit(schema, mask) {
-  const newShape = { ...schema._zod.def.shape };
-  const currDef = schema._zod.def;
+function omit(schema2, mask) {
+  const newShape = { ...schema2._zod.def.shape };
+  const currDef = schema2._zod.def;
   for (const key in mask) {
     if (!(key in currDef.shape)) {
       throw new Error(`Unrecognized key: "${key}"`);
@@ -21239,27 +21239,27 @@ function omit(schema, mask) {
       continue;
     delete newShape[key];
   }
-  return clone(schema, {
-    ...schema._zod.def,
+  return clone(schema2, {
+    ...schema2._zod.def,
     shape: newShape,
     checks: []
   });
 }
-function extend(schema, shape) {
+function extend(schema2, shape) {
   if (!isPlainObject(shape)) {
     throw new Error("Invalid input to extend: expected a plain object");
   }
   const def = {
-    ...schema._zod.def,
+    ...schema2._zod.def,
     get shape() {
-      const _shape = { ...schema._zod.def.shape, ...shape };
+      const _shape = { ...schema2._zod.def.shape, ...shape };
       assignProp(this, "shape", _shape);
       return _shape;
     },
     checks: []
     // delete existing checks
   };
-  return clone(schema, def);
+  return clone(schema2, def);
 }
 function merge(a, b) {
   return clone(a, {
@@ -21274,8 +21274,8 @@ function merge(a, b) {
     // delete existing checks
   });
 }
-function partial(Class2, schema, mask) {
-  const oldShape = schema._zod.def.shape;
+function partial(Class2, schema2, mask) {
+  const oldShape = schema2._zod.def.shape;
   const shape = { ...oldShape };
   if (mask) {
     for (const key in mask) {
@@ -21297,14 +21297,14 @@ function partial(Class2, schema, mask) {
       }) : oldShape[key];
     }
   }
-  return clone(schema, {
-    ...schema._zod.def,
+  return clone(schema2, {
+    ...schema2._zod.def,
     shape,
     checks: []
   });
 }
-function required(Class2, schema, mask) {
-  const oldShape = schema._zod.def.shape;
+function required(Class2, schema2, mask) {
+  const oldShape = schema2._zod.def.shape;
   const shape = { ...oldShape };
   if (mask) {
     for (const key in mask) {
@@ -21326,8 +21326,8 @@ function required(Class2, schema, mask) {
       });
     }
   }
-  return clone(schema, {
-    ...schema._zod.def,
+  return clone(schema2, {
+    ...schema2._zod.def,
     shape,
     // optional: [],
     checks: []
@@ -21550,9 +21550,9 @@ function prettifyError(error40) {
 }
 
 // node_modules/zod/v4/core/parse.js
-var _parse = (_Err) => (schema, value, _ctx, _params) => {
+var _parse = (_Err) => (schema2, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
-  const result = schema._zod.run({ value, issues: [] }, ctx);
+  const result = schema2._zod.run({ value, issues: [] }, ctx);
   if (result instanceof Promise) {
     throw new $ZodAsyncError();
   }
@@ -21564,9 +21564,9 @@ var _parse = (_Err) => (schema, value, _ctx, _params) => {
   return result.value;
 };
 var parse = /* @__PURE__ */ _parse($ZodRealError);
-var _parseAsync = (_Err) => async (schema, value, _ctx, params) => {
+var _parseAsync = (_Err) => async (schema2, value, _ctx, params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
-  let result = schema._zod.run({ value, issues: [] }, ctx);
+  let result = schema2._zod.run({ value, issues: [] }, ctx);
   if (result instanceof Promise)
     result = await result;
   if (result.issues.length) {
@@ -21577,9 +21577,9 @@ var _parseAsync = (_Err) => async (schema, value, _ctx, params) => {
   return result.value;
 };
 var parseAsync = /* @__PURE__ */ _parseAsync($ZodRealError);
-var _safeParse = (_Err) => (schema, value, _ctx) => {
+var _safeParse = (_Err) => (schema2, value, _ctx) => {
   const ctx = _ctx ? { ..._ctx, async: false } : { async: false };
-  const result = schema._zod.run({ value, issues: [] }, ctx);
+  const result = schema2._zod.run({ value, issues: [] }, ctx);
   if (result instanceof Promise) {
     throw new $ZodAsyncError();
   }
@@ -21589,9 +21589,9 @@ var _safeParse = (_Err) => (schema, value, _ctx) => {
   } : { success: true, data: result.value };
 };
 var safeParse = /* @__PURE__ */ _safeParse($ZodRealError);
-var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
+var _safeParseAsync = (_Err) => async (schema2, value, _ctx) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
-  let result = schema._zod.run({ value, issues: [] }, ctx);
+  let result = schema2._zod.run({ value, issues: [] }, ctx);
   if (result instanceof Promise)
     result = await result;
   return result.issues.length ? {
@@ -28695,14 +28695,14 @@ var $ZodRegistry = class {
     this._map = /* @__PURE__ */ new Map();
     this._idmap = /* @__PURE__ */ new Map();
   }
-  add(schema, ..._meta) {
+  add(schema2, ..._meta) {
     const meta = _meta[0];
-    this._map.set(schema, meta);
+    this._map.set(schema2, meta);
     if (meta && typeof meta === "object" && "id" in meta) {
       if (this._idmap.has(meta.id)) {
         throw new Error(`ID ${meta.id} already exists in the registry`);
       }
-      this._idmap.set(meta.id, schema);
+      this._idmap.set(meta.id, schema2);
     }
     return this;
   }
@@ -28711,25 +28711,25 @@ var $ZodRegistry = class {
     this._idmap = /* @__PURE__ */ new Map();
     return this;
   }
-  remove(schema) {
-    const meta = this._map.get(schema);
+  remove(schema2) {
+    const meta = this._map.get(schema2);
     if (meta && typeof meta === "object" && "id" in meta) {
       this._idmap.delete(meta.id);
     }
-    this._map.delete(schema);
+    this._map.delete(schema2);
     return this;
   }
-  get(schema) {
-    const p = schema._zod.parent;
+  get(schema2) {
+    const p = schema2._zod.parent;
     if (p) {
       const pm = { ...this.get(p) ?? {} };
       delete pm.id;
-      return { ...pm, ...this._map.get(schema) };
+      return { ...pm, ...this._map.get(schema2) };
     }
-    return this._map.get(schema);
+    return this._map.get(schema2);
   }
-  has(schema) {
-    return this._map.has(schema);
+  has(schema2) {
+    return this._map.has(schema2);
   }
 };
 function registry() {
@@ -29298,11 +29298,11 @@ function _endsWith(suffix, params) {
     suffix
   });
 }
-function _property(property, schema, params) {
+function _property(property, schema2, params) {
   return new $ZodCheckProperty({
     check: "property",
     property,
-    schema,
+    schema: schema2,
     ...normalizeParams(params)
   });
 }
@@ -29507,22 +29507,22 @@ function _promise(Class2, innerType) {
 function _custom(Class2, fn, _params) {
   const norm = normalizeParams(_params);
   norm.abort ?? (norm.abort = true);
-  const schema = new Class2({
+  const schema2 = new Class2({
     type: "custom",
     check: "custom",
     fn,
     ...norm
   });
-  return schema;
+  return schema2;
 }
 function _refine(Class2, fn, _params) {
-  const schema = new Class2({
+  const schema2 = new Class2({
     type: "custom",
     check: "custom",
     fn,
     ...normalizeParams(_params)
   });
-  return schema;
+  return schema2;
 }
 function _stringbool(Classes, _params) {
   const params = normalizeParams(_params);
@@ -29677,9 +29677,9 @@ var JSONSchemaGenerator = class {
     this.io = params?.io ?? "output";
     this.seen = /* @__PURE__ */ new Map();
   }
-  process(schema, _params = { path: [], schemaPath: [] }) {
+  process(schema2, _params = { path: [], schemaPath: [] }) {
     var _a17;
-    const def = schema._zod.def;
+    const def = schema2._zod.def;
     const formatMap = {
       guid: "uuid",
       url: "uri",
@@ -29688,27 +29688,27 @@ var JSONSchemaGenerator = class {
       regex: ""
       // do not set
     };
-    const seen = this.seen.get(schema);
+    const seen = this.seen.get(schema2);
     if (seen) {
       seen.count++;
-      const isCycle = _params.schemaPath.includes(schema);
+      const isCycle = _params.schemaPath.includes(schema2);
       if (isCycle) {
         seen.cycle = _params.path;
       }
       return seen.schema;
     }
     const result = { schema: {}, count: 1, cycle: void 0, path: _params.path };
-    this.seen.set(schema, result);
-    const overrideSchema = schema._zod.toJSONSchema?.();
+    this.seen.set(schema2, result);
+    const overrideSchema = schema2._zod.toJSONSchema?.();
     if (overrideSchema) {
       result.schema = overrideSchema;
     } else {
       const params = {
         ..._params,
-        schemaPath: [..._params.schemaPath, schema],
+        schemaPath: [..._params.schemaPath, schema2],
         path: _params.path
       };
-      const parent = schema._zod.parent;
+      const parent = schema2._zod.parent;
       if (parent) {
         result.ref = parent;
         this.process(parent, params);
@@ -29719,7 +29719,7 @@ var JSONSchemaGenerator = class {
           case "string": {
             const json2 = _json;
             json2.type = "string";
-            const { minimum, maximum, format, patterns, contentEncoding } = schema._zod.bag;
+            const { minimum, maximum, format, patterns, contentEncoding } = schema2._zod.bag;
             if (typeof minimum === "number")
               json2.minLength = minimum;
             if (typeof maximum === "number")
@@ -29748,7 +29748,7 @@ var JSONSchemaGenerator = class {
           }
           case "number": {
             const json2 = _json;
-            const { minimum, maximum, format, multipleOf, exclusiveMaximum, exclusiveMinimum } = schema._zod.bag;
+            const { minimum, maximum, format, multipleOf, exclusiveMaximum, exclusiveMinimum } = schema2._zod.bag;
             if (typeof format === "string" && format.includes("int"))
               json2.type = "integer";
             else
@@ -29830,7 +29830,7 @@ var JSONSchemaGenerator = class {
           }
           case "array": {
             const json2 = _json;
-            const { minimum, maximum } = schema._zod.bag;
+            const { minimum, maximum } = schema2._zod.bag;
             if (typeof minimum === "number")
               json2.minItems = minimum;
             if (typeof maximum === "number")
@@ -29927,7 +29927,7 @@ var JSONSchemaGenerator = class {
                 path: [...params.path, "items"]
               });
             }
-            const { minimum, maximum } = schema._zod.bag;
+            const { minimum, maximum } = schema2._zod.bag;
             if (typeof minimum === "number")
               json2.minItems = minimum;
             if (typeof maximum === "number")
@@ -30010,7 +30010,7 @@ var JSONSchemaGenerator = class {
               format: "binary",
               contentEncoding: "binary"
             };
-            const { minimum, maximum, mime } = schema._zod.bag;
+            const { minimum, maximum, mime } = schema2._zod.bag;
             if (minimum !== void 0)
               file2.minLength = minimum;
             if (maximum !== void 0)
@@ -30084,7 +30084,7 @@ var JSONSchemaGenerator = class {
           }
           case "template_literal": {
             const json2 = _json;
-            const pattern = schema._zod.pattern;
+            const pattern = schema2._zod.pattern;
             if (!pattern)
               throw new Error("Pattern not found in template literal");
             json2.type = "string";
@@ -30115,7 +30115,7 @@ var JSONSchemaGenerator = class {
             break;
           }
           case "lazy": {
-            const innerType = schema._zod.innerType;
+            const innerType = schema2._zod.innerType;
             this.process(innerType, params);
             result.ref = innerType;
             break;
@@ -30132,20 +30132,20 @@ var JSONSchemaGenerator = class {
         }
       }
     }
-    const meta = this.metadataRegistry.get(schema);
+    const meta = this.metadataRegistry.get(schema2);
     if (meta)
       Object.assign(result.schema, meta);
-    if (this.io === "input" && isTransforming(schema)) {
+    if (this.io === "input" && isTransforming(schema2)) {
       delete result.schema.examples;
       delete result.schema.default;
     }
     if (this.io === "input" && result.schema._prefault)
       (_a17 = result.schema).default ?? (_a17.default = result.schema._prefault);
     delete result.schema._prefault;
-    const _result = this.seen.get(schema);
+    const _result = this.seen.get(schema2);
     return _result.schema;
   }
-  emit(schema, _params) {
+  emit(schema2, _params) {
     const params = {
       cycles: _params?.cycles ?? "ref",
       reused: _params?.reused ?? "inline",
@@ -30153,7 +30153,7 @@ var JSONSchemaGenerator = class {
       // uri: _params?.uri ?? ((id) => `${id}`),
       external: _params?.external ?? void 0
     };
-    const root = this.seen.get(schema);
+    const root = this.seen.get(schema2);
     if (!root)
       throw new Error("Unprocessed schema. This is a bug in Zod.");
     const makeURI = (entry) => {
@@ -30185,11 +30185,11 @@ var JSONSchemaGenerator = class {
       seen.def = { ...seen.schema };
       if (defId)
         seen.defId = defId;
-      const schema2 = seen.schema;
-      for (const key in schema2) {
-        delete schema2[key];
+      const schema3 = seen.schema;
+      for (const key in schema3) {
+        delete schema3[key];
       }
-      schema2.$ref = ref;
+      schema3.$ref = ref;
     };
     if (params.cycles === "throw") {
       for (const entry of this.seen.entries()) {
@@ -30203,13 +30203,13 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
     }
     for (const entry of this.seen.entries()) {
       const seen = entry[1];
-      if (schema === entry[0]) {
+      if (schema2 === entry[0]) {
         extractToDef(entry);
         continue;
       }
       if (params.external) {
         const ext = params.external.registry.get(entry[0])?.id;
-        if (schema !== entry[0] && ext) {
+        if (schema2 !== entry[0] && ext) {
           extractToDef(entry);
           continue;
         }
@@ -30232,8 +30232,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
     }
     const flattenRef = (zodSchema2, params2) => {
       const seen = this.seen.get(zodSchema2);
-      const schema2 = seen.def ?? seen.schema;
-      const _cached = { ...schema2 };
+      const schema3 = seen.def ?? seen.schema;
+      const _cached = { ...schema3 };
       if (seen.ref === null) {
         return;
       }
@@ -30243,17 +30243,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
         flattenRef(ref, params2);
         const refSchema = this.seen.get(ref).schema;
         if (refSchema.$ref && params2.target === "draft-7") {
-          schema2.allOf = schema2.allOf ?? [];
-          schema2.allOf.push(refSchema);
+          schema3.allOf = schema3.allOf ?? [];
+          schema3.allOf.push(refSchema);
         } else {
-          Object.assign(schema2, refSchema);
-          Object.assign(schema2, _cached);
+          Object.assign(schema3, refSchema);
+          Object.assign(schema3, _cached);
         }
       }
       if (!seen.isParent)
         this.override({
           zodSchema: zodSchema2,
-          jsonSchema: schema2,
+          jsonSchema: schema3,
           path: seen.path ?? []
         });
     };
@@ -30269,7 +30269,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
       console.warn(`Invalid target: ${this.target}`);
     }
     if (params.external?.uri) {
-      const id = params.external.registry.get(schema)?.id;
+      const id = params.external.registry.get(schema2)?.id;
       if (!id)
         throw new Error("Schema is missing an `id` property");
       result.$id = params.external.uri(id);
@@ -30304,8 +30304,8 @@ function toJSONSchema(input, _params) {
     const gen2 = new JSONSchemaGenerator(_params);
     const defs = {};
     for (const entry of input._idmap.entries()) {
-      const [_, schema] = entry;
-      gen2.process(schema);
+      const [_, schema2] = entry;
+      gen2.process(schema2);
     }
     const schemas = {};
     const external = {
@@ -30314,8 +30314,8 @@ function toJSONSchema(input, _params) {
       defs
     };
     for (const entry of input._idmap.entries()) {
-      const [key, schema] = entry;
-      schemas[key] = gen2.emit(schema, {
+      const [key, schema2] = entry;
+      schemas[key] = gen2.emit(schema2, {
         ..._params,
         external
       });
@@ -30337,8 +30337,8 @@ function isTransforming(_schema, _ctx) {
   if (ctx.seen.has(_schema))
     return false;
   ctx.seen.add(_schema);
-  const schema = _schema;
-  const def = schema._zod.def;
+  const schema2 = _schema;
+  const def = schema2._zod.def;
   switch (def.type) {
     case "string":
     case "number":
@@ -30954,8 +30954,8 @@ var ZodArray = /* @__PURE__ */ $constructor("ZodArray", (inst, def) => {
 function array(element, params) {
   return _array(ZodArray, element, params);
 }
-function keyof(schema) {
-  const shape = schema._zod.def.shape;
+function keyof(schema2) {
+  const shape = schema2._zod.def.shape;
   return literal(Object.keys(shape));
 }
 var ZodObject = /* @__PURE__ */ $constructor("ZodObject", (inst, def) => {
@@ -31449,8 +31449,8 @@ function json(params) {
   });
   return jsonSchema2;
 }
-function preprocess(fn, schema) {
-  return pipe(transform(fn), schema);
+function preprocess(fn, schema2) {
+  return pipe(transform(fn), schema2);
 }
 
 // node_modules/zod/v4/classic/compat.js
@@ -33797,9 +33797,9 @@ var ZodArray2 = class _ZodArray extends ZodType2 {
     return this.min(1, message);
   }
 };
-ZodArray2.create = (schema, params) => {
+ZodArray2.create = (schema2, params) => {
   return new ZodArray2({
-    type: schema,
+    type: schema2,
     minLength: null,
     maxLength: null,
     exactLength: null,
@@ -33807,30 +33807,30 @@ ZodArray2.create = (schema, params) => {
     ...processCreateParams(params)
   });
 };
-function deepPartialify(schema) {
-  if (schema instanceof ZodObject2) {
+function deepPartialify(schema2) {
+  if (schema2 instanceof ZodObject2) {
     const newShape = {};
-    for (const key in schema.shape) {
-      const fieldSchema = schema.shape[key];
+    for (const key in schema2.shape) {
+      const fieldSchema = schema2.shape[key];
       newShape[key] = ZodOptional2.create(deepPartialify(fieldSchema));
     }
     return new ZodObject2({
-      ...schema._def,
+      ...schema2._def,
       shape: () => newShape
     });
-  } else if (schema instanceof ZodArray2) {
+  } else if (schema2 instanceof ZodArray2) {
     return new ZodArray2({
-      ...schema._def,
-      type: deepPartialify(schema.element)
+      ...schema2._def,
+      type: deepPartialify(schema2.element)
     });
-  } else if (schema instanceof ZodOptional2) {
-    return ZodOptional2.create(deepPartialify(schema.unwrap()));
-  } else if (schema instanceof ZodNullable2) {
-    return ZodNullable2.create(deepPartialify(schema.unwrap()));
-  } else if (schema instanceof ZodTuple2) {
-    return ZodTuple2.create(schema.items.map((item) => deepPartialify(item)));
+  } else if (schema2 instanceof ZodOptional2) {
+    return ZodOptional2.create(deepPartialify(schema2.unwrap()));
+  } else if (schema2 instanceof ZodNullable2) {
+    return ZodNullable2.create(deepPartialify(schema2.unwrap()));
+  } else if (schema2 instanceof ZodTuple2) {
+    return ZodTuple2.create(schema2.items.map((item) => deepPartialify(item)));
   } else {
-    return schema;
+    return schema2;
   }
 }
 var ZodObject2 = class _ZodObject extends ZodType2 {
@@ -34046,8 +34046,8 @@ var ZodObject2 = class _ZodObject extends ZodType2 {
   //   }) as any;
   //   return merged;
   // }
-  setKey(key, schema) {
-    return this.augment({ [key]: schema });
+  setKey(key, schema2) {
+    return this.augment({ [key]: schema2 });
   }
   // merge<Incoming extends AnyZodObject>(
   //   merging: Incoming
@@ -34493,10 +34493,10 @@ var ZodTuple2 = class _ZodTuple extends ZodType2 {
       status.dirty();
     }
     const items = [...ctx.data].map((item, itemIndex) => {
-      const schema = this._def.items[itemIndex] || this._def.rest;
-      if (!schema)
+      const schema2 = this._def.items[itemIndex] || this._def.rest;
+      if (!schema2)
         return null;
-      return schema._parse(new ParseInputLazyPath(ctx, item, ctx.path, itemIndex));
+      return schema2._parse(new ParseInputLazyPath(ctx, item, ctx.path, itemIndex));
     }).filter((x) => !!x);
     if (ctx.common.async) {
       return Promise.all(items).then((results) => {
@@ -35010,9 +35010,9 @@ var ZodPromise2 = class extends ZodType2 {
     }));
   }
 };
-ZodPromise2.create = (schema, params) => {
+ZodPromise2.create = (schema2, params) => {
   return new ZodPromise2({
-    type: schema,
+    type: schema2,
     typeName: ZodFirstPartyTypeKind.ZodPromise,
     ...processCreateParams(params)
   });
@@ -35140,17 +35140,17 @@ var ZodEffects = class extends ZodType2 {
     util.assertNever(effect);
   }
 };
-ZodEffects.create = (schema, effect, params) => {
+ZodEffects.create = (schema2, effect, params) => {
   return new ZodEffects({
-    schema,
+    schema: schema2,
     typeName: ZodFirstPartyTypeKind.ZodEffects,
     effect,
     ...processCreateParams(params)
   });
 };
-ZodEffects.createWithPreprocess = (preprocess2, schema, params) => {
+ZodEffects.createWithPreprocess = (preprocess2, schema2, params) => {
   return new ZodEffects({
-    schema,
+    schema: schema2,
     effect: { type: "preprocess", transform: preprocess2 },
     typeName: ZodFirstPartyTypeKind.ZodEffects,
     ...processCreateParams(params)
@@ -35664,16 +35664,16 @@ function parseIntersectionDef(def, refs) {
   ].filter((x) => !!x);
   let unevaluatedProperties = refs.target === "jsonSchema2019-09" ? { unevaluatedProperties: false } : void 0;
   const mergedAllOf = [];
-  allOf.forEach((schema) => {
-    if (isJsonSchema7AllOfType(schema)) {
-      mergedAllOf.push(...schema.allOf);
-      if (schema.unevaluatedProperties === void 0) {
+  allOf.forEach((schema2) => {
+    if (isJsonSchema7AllOfType(schema2)) {
+      mergedAllOf.push(...schema2.allOf);
+      if (schema2.unevaluatedProperties === void 0) {
         unevaluatedProperties = void 0;
       }
     } else {
-      let nestedSchema = schema;
-      if ("additionalProperties" in schema && schema.additionalProperties === false) {
-        const { additionalProperties, ...rest } = schema;
+      let nestedSchema = schema2;
+      if ("additionalProperties" in schema2 && schema2.additionalProperties === false) {
+        const { additionalProperties, ...rest } = schema2;
         nestedSchema = rest;
       } else {
         unevaluatedProperties = void 0;
@@ -35900,60 +35900,60 @@ function escapeNonAlphaNumeric(source) {
   }
   return result;
 }
-function addFormat(schema, value, message, refs) {
-  if (schema.format || schema.anyOf?.some((x) => x.format)) {
-    if (!schema.anyOf) {
-      schema.anyOf = [];
+function addFormat(schema2, value, message, refs) {
+  if (schema2.format || schema2.anyOf?.some((x) => x.format)) {
+    if (!schema2.anyOf) {
+      schema2.anyOf = [];
     }
-    if (schema.format) {
-      schema.anyOf.push({
-        format: schema.format,
-        ...schema.errorMessage && refs.errorMessages && {
-          errorMessage: { format: schema.errorMessage.format }
+    if (schema2.format) {
+      schema2.anyOf.push({
+        format: schema2.format,
+        ...schema2.errorMessage && refs.errorMessages && {
+          errorMessage: { format: schema2.errorMessage.format }
         }
       });
-      delete schema.format;
-      if (schema.errorMessage) {
-        delete schema.errorMessage.format;
-        if (Object.keys(schema.errorMessage).length === 0) {
-          delete schema.errorMessage;
+      delete schema2.format;
+      if (schema2.errorMessage) {
+        delete schema2.errorMessage.format;
+        if (Object.keys(schema2.errorMessage).length === 0) {
+          delete schema2.errorMessage;
         }
       }
     }
-    schema.anyOf.push({
+    schema2.anyOf.push({
       format: value,
       ...message && refs.errorMessages && { errorMessage: { format: message } }
     });
   } else {
-    setResponseValueAndErrors(schema, "format", value, message, refs);
+    setResponseValueAndErrors(schema2, "format", value, message, refs);
   }
 }
-function addPattern(schema, regex, message, refs) {
-  if (schema.pattern || schema.allOf?.some((x) => x.pattern)) {
-    if (!schema.allOf) {
-      schema.allOf = [];
+function addPattern(schema2, regex, message, refs) {
+  if (schema2.pattern || schema2.allOf?.some((x) => x.pattern)) {
+    if (!schema2.allOf) {
+      schema2.allOf = [];
     }
-    if (schema.pattern) {
-      schema.allOf.push({
-        pattern: schema.pattern,
-        ...schema.errorMessage && refs.errorMessages && {
-          errorMessage: { pattern: schema.errorMessage.pattern }
+    if (schema2.pattern) {
+      schema2.allOf.push({
+        pattern: schema2.pattern,
+        ...schema2.errorMessage && refs.errorMessages && {
+          errorMessage: { pattern: schema2.errorMessage.pattern }
         }
       });
-      delete schema.pattern;
-      if (schema.errorMessage) {
-        delete schema.errorMessage.pattern;
-        if (Object.keys(schema.errorMessage).length === 0) {
-          delete schema.errorMessage;
+      delete schema2.pattern;
+      if (schema2.errorMessage) {
+        delete schema2.errorMessage.pattern;
+        if (Object.keys(schema2.errorMessage).length === 0) {
+          delete schema2.errorMessage;
         }
       }
     }
-    schema.allOf.push({
+    schema2.allOf.push({
       pattern: stringifyRegExpWithFlags(regex, refs),
       ...message && refs.errorMessages && { errorMessage: { pattern: message } }
     });
   } else {
-    setResponseValueAndErrors(schema, "pattern", stringifyRegExpWithFlags(regex, refs), message, refs);
+    setResponseValueAndErrors(schema2, "pattern", stringifyRegExpWithFlags(regex, refs), message, refs);
   }
 }
 function stringifyRegExpWithFlags(regex, refs) {
@@ -36051,7 +36051,7 @@ function parseRecordDef(def, refs) {
       additionalProperties: refs.rejectedAdditionalProperties
     };
   }
-  const schema = {
+  const schema2 = {
     type: "object",
     additionalProperties: parseDef(def.valueType._def, {
       ...refs,
@@ -36059,17 +36059,17 @@ function parseRecordDef(def, refs) {
     }) ?? refs.allowedAdditionalProperties
   };
   if (refs.target === "openApi3") {
-    return schema;
+    return schema2;
   }
   if (def.keyType?._def.typeName === ZodFirstPartyTypeKind.ZodString && def.keyType._def.checks?.length) {
     const { type, ...keyType } = parseStringDef(def.keyType._def, refs);
     return {
-      ...schema,
+      ...schema2,
       propertyNames: keyType
     };
   } else if (def.keyType?._def.typeName === ZodFirstPartyTypeKind.ZodEnum) {
     return {
-      ...schema,
+      ...schema2,
       propertyNames: {
         enum: def.keyType._def.values
       }
@@ -36077,11 +36077,11 @@ function parseRecordDef(def, refs) {
   } else if (def.keyType?._def.typeName === ZodFirstPartyTypeKind.ZodBranded && def.keyType._def.type._def.typeName === ZodFirstPartyTypeKind.ZodString && def.keyType._def.type._def.checks?.length) {
     const { type, ...keyType } = parseBrandedDef(def.keyType._def, refs);
     return {
-      ...schema,
+      ...schema2,
       propertyNames: keyType
     };
   }
-  return schema;
+  return schema2;
 }
 
 // node_modules/zod-to-json-schema/dist/esm/parsers/map.js
@@ -36354,9 +36354,9 @@ function decideAdditionalProperties(def, refs) {
       return refs.removeAdditionalStrategy === "strict" ? refs.allowedAdditionalProperties : refs.rejectedAdditionalProperties;
   }
 }
-function safeIsOptional(schema) {
+function safeIsOptional(schema2) {
   try {
-    return schema.isOptional();
+    return schema2.isOptional();
   } catch {
     return true;
   }
@@ -36412,18 +36412,18 @@ function parseSetDef(def, refs) {
     ...refs,
     currentPath: [...refs.currentPath, "items"]
   });
-  const schema = {
+  const schema2 = {
     type: "array",
     uniqueItems: true,
     items
   };
   if (def.minSize) {
-    setResponseValueAndErrors(schema, "minItems", def.minSize.value, def.minSize.message, refs);
+    setResponseValueAndErrors(schema2, "minItems", def.minSize.value, def.minSize.message, refs);
   }
   if (def.maxSize) {
-    setResponseValueAndErrors(schema, "maxItems", def.maxSize.value, def.maxSize.message, refs);
+    setResponseValueAndErrors(schema2, "maxItems", def.maxSize.value, def.maxSize.message, refs);
   }
-  return schema;
+  return schema2;
 }
 
 // node_modules/zod-to-json-schema/dist/esm/parsers/tuple.js
@@ -36604,17 +36604,17 @@ var addMeta = (def, refs, jsonSchema2) => {
 };
 
 // node_modules/zod-to-json-schema/dist/esm/zodToJsonSchema.js
-var zodToJsonSchema = (schema, options) => {
+var zodToJsonSchema = (schema2, options) => {
   const refs = getRefs(options);
-  let definitions = typeof options === "object" && options.definitions ? Object.entries(options.definitions).reduce((acc, [name18, schema2]) => ({
+  let definitions = typeof options === "object" && options.definitions ? Object.entries(options.definitions).reduce((acc, [name18, schema3]) => ({
     ...acc,
-    [name18]: parseDef(schema2._def, {
+    [name18]: parseDef(schema3._def, {
       ...refs,
       currentPath: [...refs.basePath, refs.definitionPath, name18]
     }, true) ?? parseAnyDef(refs)
   }), {}) : void 0;
   const name17 = typeof options === "string" ? options : options?.nameStrategy === "title" ? void 0 : options?.name;
-  const main2 = parseDef(schema._def, name17 === void 0 ? refs : {
+  const main2 = parseDef(schema2._def, name17 === void 0 ? refs : {
     ...refs,
     currentPath: [...refs.basePath, refs.definitionPath, name17]
   }, false) ?? parseAnyDef(refs);
@@ -36939,9 +36939,9 @@ function standardSchemaValidator(standardSchema) {
 }
 async function validateTypes({
   value,
-  schema
+  schema: schema2
 }) {
-  const result = await safeValidateTypes({ value, schema });
+  const result = await safeValidateTypes({ value, schema: schema2 });
   if (!result.success) {
     throw TypeValidationError.wrap({ value, cause: result.error });
   }
@@ -36949,9 +36949,9 @@ async function validateTypes({
 }
 async function safeValidateTypes({
   value,
-  schema
+  schema: schema2
 }) {
-  const validator2 = asValidator(schema);
+  const validator2 = asValidator(schema2);
   try {
     if (validator2.validate == null) {
       return { success: true, value, rawValue: value };
@@ -36975,14 +36975,14 @@ async function safeValidateTypes({
 }
 async function parseJSON({
   text: text2,
-  schema
+  schema: schema2
 }) {
   try {
     const value = secureJsonParse(text2);
-    if (schema == null) {
+    if (schema2 == null) {
       return value;
     }
-    return validateTypes({ value, schema });
+    return validateTypes({ value, schema: schema2 });
   } catch (error40) {
     if (JSONParseError.isInstance(error40) || TypeValidationError.isInstance(error40)) {
       throw error40;
@@ -36992,14 +36992,14 @@ async function parseJSON({
 }
 async function safeParseJSON({
   text: text2,
-  schema
+  schema: schema2
 }) {
   try {
     const value = secureJsonParse(text2);
-    if (schema == null) {
+    if (schema2 == null) {
       return { success: true, value, rawValue: value };
     }
-    return await safeValidateTypes({ value, schema });
+    return await safeValidateTypes({ value, schema: schema2 });
   } catch (error40) {
     return {
       success: false,
@@ -37010,7 +37010,7 @@ async function safeParseJSON({
 }
 function parseJsonEventStream({
   stream,
-  schema
+  schema: schema2
 }) {
   return stream.pipeThrough(new TextDecoderStream()).pipeThrough(new EventSourceParserStream()).pipeThrough(
     new TransformStream({
@@ -37018,7 +37018,7 @@ function parseJsonEventStream({
         if (data === "[DONE]") {
           return;
         }
-        controller.enqueue(await safeParseJSON({ text: data, schema }));
+        controller.enqueue(await safeParseJSON({ text: data, schema: schema2 }));
       }
     })
   );
@@ -37273,11 +37273,11 @@ function jsonSchema(jsonSchema2, {
 function isSchema(value) {
   return typeof value === "object" && value !== null && schemaSymbol in value && value[schemaSymbol] === true && "jsonSchema" in value && "validate" in value;
 }
-function asSchema(schema) {
-  return schema == null ? jsonSchema({
+function asSchema(schema2) {
+  return schema2 == null ? jsonSchema({
     properties: {},
     additionalProperties: false
-  }) : isSchema(schema) ? schema : zodSchema(schema);
+  }) : isSchema(schema2) ? schema2 : zodSchema(schema2);
 }
 var { btoa, atob: atob2 } = globalThis;
 function convertBase64ToUint8Array(base64String) {
@@ -40386,8 +40386,8 @@ async function doParseToolCall({
       availableTools: Object.keys(tools)
     });
   }
-  const schema = asSchema(tool3.inputSchema);
-  const parseResult = toolCall.input.trim() === "" ? await safeValidateTypes({ value: {}, schema }) : await safeParseJSON({ text: toolCall.input, schema });
+  const schema2 = asSchema(tool3.inputSchema);
+  const parseResult = toolCall.input.trim() === "" ? await safeValidateTypes({ value: {}, schema: schema2 }) : await safeParseJSON({ text: toolCall.input, schema: schema2 });
   if (parseResult.success === false) {
     throw new InvalidToolInputError({
       toolName,
@@ -44555,9 +44555,9 @@ var noSchemaOutputStrategy = {
     });
   }
 };
-var objectOutputStrategy = (schema) => ({
+var objectOutputStrategy = (schema2) => ({
   type: "object",
-  jsonSchema: schema.jsonSchema,
+  jsonSchema: schema2.jsonSchema,
   async validatePartialResult({ value, textDelta }) {
     return {
       success: true,
@@ -44569,7 +44569,7 @@ var objectOutputStrategy = (schema) => ({
     };
   },
   async validateFinalResult(value) {
-    return safeValidateTypes({ value, schema });
+    return safeValidateTypes({ value, schema: schema2 });
   },
   createElementStream() {
     throw new UnsupportedFunctionalityError({
@@ -44577,8 +44577,8 @@ var objectOutputStrategy = (schema) => ({
     });
   }
 });
-var arrayOutputStrategy = (schema) => {
-  const { $schema, ...itemSchema } = schema.jsonSchema;
+var arrayOutputStrategy = (schema2) => {
+  const { $schema, ...itemSchema } = schema2.jsonSchema;
   return {
     type: "enum",
     // wrap in object that contains array of elements, since most LLMs will not
@@ -44613,7 +44613,7 @@ var arrayOutputStrategy = (schema) => {
       const resultArray = [];
       for (let i = 0; i < inputArray.length; i++) {
         const element = inputArray[i];
-        const result = await safeValidateTypes({ value: element, schema });
+        const result = await safeValidateTypes({ value: element, schema: schema2 });
         if (i === inputArray.length - 1 && !isFinalDelta) {
           continue;
         }
@@ -44654,7 +44654,7 @@ var arrayOutputStrategy = (schema) => {
       }
       const inputArray = value.elements;
       for (const element of inputArray) {
-        const result = await safeValidateTypes({ value: element, schema });
+        const result = await safeValidateTypes({ value: element, schema: schema2 });
         if (!result.success) {
           return result;
         }
@@ -44767,14 +44767,14 @@ var enumOutputStrategy = (enumValues) => {
 };
 function getOutputStrategy({
   output,
-  schema,
+  schema: schema2,
   enumValues
 }) {
   switch (output) {
     case "object":
-      return objectOutputStrategy(asSchema(schema));
+      return objectOutputStrategy(asSchema(schema2));
     case "array":
-      return arrayOutputStrategy(asSchema(schema));
+      return arrayOutputStrategy(asSchema(schema2));
     case "enum":
       return enumOutputStrategy(enumValues);
     case "no-schema":
@@ -44840,7 +44840,7 @@ async function parseAndValidateObjectResultWithRepair(result, outputStrategy, re
 }
 function validateObjectGenerationInput({
   output,
-  schema,
+  schema: schema2,
   schemaName,
   schemaDescription,
   enumValues
@@ -44853,10 +44853,10 @@ function validateObjectGenerationInput({
     });
   }
   if (output === "no-schema") {
-    if (schema != null) {
+    if (schema2 != null) {
       throw new InvalidArgumentError2({
         parameter: "schema",
-        value: schema,
+        value: schema2,
         message: "Schema is not supported for no-schema output."
       });
     }
@@ -44883,10 +44883,10 @@ function validateObjectGenerationInput({
     }
   }
   if (output === "object") {
-    if (schema == null) {
+    if (schema2 == null) {
       throw new InvalidArgumentError2({
         parameter: "schema",
-        value: schema,
+        value: schema2,
         message: "Schema is required for object output."
       });
     }
@@ -44899,10 +44899,10 @@ function validateObjectGenerationInput({
     }
   }
   if (output === "array") {
-    if (schema == null) {
+    if (schema2 == null) {
       throw new InvalidArgumentError2({
         parameter: "schema",
-        value: schema,
+        value: schema2,
         message: "Element schema is required for array output."
       });
     }
@@ -44915,10 +44915,10 @@ function validateObjectGenerationInput({
     }
   }
   if (output === "enum") {
-    if (schema != null) {
+    if (schema2 != null) {
       throw new InvalidArgumentError2({
         parameter: "schema",
-        value: schema,
+        value: schema2,
         message: "Schema is not supported for enum output."
       });
     }
@@ -45953,12 +45953,12 @@ var text = () => ({
 var object2 = ({
   schema: inputSchema
 }) => {
-  const schema = asSchema(inputSchema);
+  const schema2 = asSchema(inputSchema);
   return {
     type: "object",
     responseFormat: {
       type: "json",
-      schema: schema.jsonSchema
+      schema: schema2.jsonSchema
     },
     async parsePartial({ text: text2 }) {
       const result = await parsePartialJson(text2);
@@ -45992,7 +45992,7 @@ var object2 = ({
       }
       const validationResult = await safeValidateTypes({
         value: parseResult.value,
-        schema
+        schema: schema2
       });
       if (!validationResult.success) {
         throw new NoObjectGeneratedError({
@@ -48353,17 +48353,35 @@ function readUIMessageStream({
 }
 
 // lib/main.js
-async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, ai, core: core2 }) {
+async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: schema2, ai, core: core2 }) {
   process.env.AI_GATEWAY_API_KEY = apiKey2;
-  const { text: text2, response } = await ai.generateText({ prompt: prompt2, model: model2 });
-  core2.setOutput("text", text2);
+  if (schema2 && schema2.trim()) {
+    let parsedSchema;
+    try {
+      parsedSchema = JSON.parse(schema2);
+    } catch (error40) {
+      throw new Error(`Invalid JSON schema: ${error40.message}`);
+    }
+    const aiSchema = ai.jsonSchema(parsedSchema);
+    const { object: object3, response } = await ai.generateObject({
+      prompt: prompt2,
+      model: model2,
+      schema: aiSchema
+    });
+    core2.setOutput("json", JSON.stringify(object3));
+    core2.setOutput("text", JSON.stringify(object3));
+  } else {
+    const { text: text2, response } = await ai.generateText({ prompt: prompt2, model: model2 });
+    core2.setOutput("text", text2);
+  }
 }
 
 // main.js
 var prompt = import_core7.default.getInput("prompt");
 var model = import_core7.default.getInput("model");
 var apiKey = import_core7.default.getInput("api-key");
-var main_default = main({ prompt, model, apiKey, ai: dist_exports, core: import_core7.default }).catch((error40) => {
+var schema = import_core7.default.getInput("schema");
+var main_default = main({ prompt, model, apiKey, schema, ai: dist_exports, core: import_core7.default }).catch((error40) => {
   console.error(error40);
   import_core7.default.setFailed(error40.message);
 });
