@@ -14,9 +14,14 @@ inputs:
   model: 
     description: "An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models"
     required: true
+  schema:
+    description: "Optional JSON schema for structured output. When provided, the action will use generateObject and return structured JSON data."
+    required: false
 outputs:
   text:
-    description: "GitHub installation access token"
+    description: "Generated text output"
+  json:
+    description: "Generated JSON output (only available when schema input is provided)"
 runs:
   using: "node24"
   main: "dist/main.cjs"
