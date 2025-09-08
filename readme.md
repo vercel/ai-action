@@ -117,12 +117,18 @@ The generated text by the model. When using structured generation with a schema,
 
 The generated JSON object when using structured generation with a schema. This output is only available when the `schema` input is provided.
 
+## Examples
+
+- [Issue triaging](https://github.com/vercel/ai/blob/1f649aa4d1b9abb05cdf7154dcefa48596150307/.github/workflows/triage.yml#L34-L77)
+- [Calculate version bumps and release notes](https://github.com/gr2m/ai-provider-api-changes/blob/f1191eed3949c321c2f93b178daf5ffdb3d6e7d3/.github/workflows/check-for-changes.yml#L139-L188)
+- _add yours_
+
 ## How it works
 
 The action is utilizing the [AI SDK](https://ai-sdk.dev/) to send requests to the [AI Gateway](https://vercel.com/ai-gateway).
 
-- **Text Generation**: Uses the `generateText` function for basic text generation
-- **Structured Generation**: Uses the `generateObject` function when a JSON schema is provided, ensuring the output conforms to your specified structure
+- **Text Generation**: Uses [`generateText()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-text#generatetext) for basic text generation
+- **Structured Generation**: Uses [`generateObject()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-object) when a JSON schema is provided, ensuring the output conforms to your specified structure
 
 ## Contributing
 
