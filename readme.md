@@ -9,7 +9,7 @@ GitHub Action to interact with different AI model providers.
 In order to use this action, you need to 
 
 1. [create an API KEY for the AI Gateway](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%2Fapi-keys)
-2. [pick one of the supported models](https://vercel.com/ai-gateway/models)
+2. Optionally specify a model (defaults to `xai/grok-3` if not provided)
 
 
 ### Basic Text Generation
@@ -29,7 +29,6 @@ jobs:
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
-          model: 'openai/gpt5'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
       - run: echo ${{ steps.prompt.outputs.text }}
 ```
@@ -101,7 +100,7 @@ jobs:
 
 ### `model`
 
-**Required.** An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models
+**Optional.** An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models. Defaults to `xai/grok-3` if not provided.
 
 ### `schema`
 
