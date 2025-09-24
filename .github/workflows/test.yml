@@ -57,8 +57,12 @@ jobs:
               "type": "object",
               "properties": {
                 "capital": { "type": "string" }
-              }
+              },
+              "required": ["capital"],
+              "additionalProperties": false
             }
       - run: echo "${{ steps.prompt.outputs.text }}"
       - run: |
+          echo "Generated JSON:"
+          echo '${{ steps.prompt-with-structured-output.outputs.json }}'
           echo "Capital of Costa Rica: ${{ fromJson(steps.prompt-with-structured-output.outputs.json).capital }}"
