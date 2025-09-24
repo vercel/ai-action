@@ -47,4 +47,17 @@ jobs:
         with:
           prompt: 'Why is the sky blue?'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
+      - uses: ./ # Uses the action in the root directory
+        id: prompt-with-structured-output
+        with:
+          prompt: 'What is the capital of France?'
+          api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
+          schema: |
+            {
+              "type": "object",
+              "properties": {
+                "capital": { "type": "string" }
+              }
+            }
       - run: echo '${{ steps.prompt.outputs.text }}'
+      - run: echo '${{ steps.prompt-with-structured-output.outputs.json }}'
