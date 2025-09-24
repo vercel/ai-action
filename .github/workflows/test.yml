@@ -46,6 +46,5 @@ jobs:
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
-          model: 'openai/gpt5'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
       - run: echo '${{ steps.prompt.outputs.text }}'
