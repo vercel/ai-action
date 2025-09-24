@@ -50,7 +50,7 @@ jobs:
       - uses: ./ # Uses the action in the root directory
         id: prompt-with-structured-output
         with:
-          prompt: 'What is the capital of France?'
+          prompt: 'What is the capital of Costa Rica?'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
           schema: |
             {
@@ -60,4 +60,5 @@ jobs:
               }
             }
       - run: echo "${{ steps.prompt.outputs.text }}"
-      - run: echo "${{ steps.prompt-with-structured-output.outputs.json }}"
+      - run: |
+          echo "Capital of Costa Rica: ${{ fromJson(steps.prompt-with-structured-output.outputs.json).capital }}"
