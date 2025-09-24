@@ -6,7 +6,7 @@ import * as ai from "ai";
 import { main } from "./lib/main.js";
 
 const prompt = core.getInput("prompt");
-const model = core.getInput("model");
+const model = core.getInput("model", { required: false });
 const apiKey = core.getInput("api-key");
 const schema = core.getInput("schema");
 

@@ -13,7 +13,8 @@ inputs:
     required: true
   model: 
     description: "An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models"
-    required: true
+    default: "xai/grok-3"
+    required: false
   schema:
     description: "Optional JSON schema for structured output. When provided, the action will use generateObject and return structured JSON data."
     required: false
