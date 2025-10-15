@@ -48371,7 +48371,7 @@ async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: s
     if (system2 && system2.trim()) {
       options.system = system2;
     }
-    const { object: object3, response } = await ai.generateObject(options);
+    const { object: object3 } = await ai.generateObject(options);
     core2.setOutput("json", JSON.stringify(object3));
     core2.setOutput("text", JSON.stringify(object3));
   } else {
@@ -48379,7 +48379,7 @@ async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: s
     if (system2 && system2.trim()) {
       options.system = system2;
     }
-    const { text: text2, response } = await ai.generateText(options);
+    const { text: text2 } = await ai.generateText(options);
     core2.setOutput("text", text2);
   }
 }
