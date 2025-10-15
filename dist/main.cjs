@@ -40323,7 +40323,7 @@ async function parseToolCall({
   toolCall,
   tools,
   repairToolCall,
-  system,
+  system: system2,
   messages
 }) {
   try {
@@ -40345,7 +40345,7 @@ async function parseToolCall({
             const { inputSchema } = tools[toolName];
             return asSchema(inputSchema).jsonSchema;
           },
-          system,
+          system: system2,
           messages,
           error: error40
         });
@@ -40603,7 +40603,7 @@ async function generateText({
   model: modelArg,
   tools,
   toolChoice,
-  system,
+  system: system2,
   prompt: prompt2,
   messages,
   maxRetries: maxRetriesArg,
@@ -40640,7 +40640,7 @@ async function generateText({
     settings: { ...callSettings, maxRetries }
   });
   const initialPrompt = await standardizePrompt({
-    system,
+    system: system2,
     prompt: prompt2,
     messages
   });
@@ -40661,7 +40661,7 @@ async function generateText({
           "ai.model.id": model2.modelId,
           // specific settings that only make sense on the outer level:
           "ai.prompt": {
-            input: () => JSON.stringify({ system, prompt: prompt2, messages })
+            input: () => JSON.stringify({ system: system2, prompt: prompt2, messages })
           }
         }
       }),
@@ -40804,7 +40804,7 @@ async function generateText({
                 toolCall,
                 tools,
                 repairToolCall,
-                system,
+                system: system2,
                 messages: stepInputMessages
               })
             )
@@ -42525,7 +42525,7 @@ function runToolsTransformation({
   generatorStream,
   tracer,
   telemetry,
-  system,
+  system: system2,
   messages,
   abortSignal,
   repairToolCall,
@@ -42595,7 +42595,7 @@ function runToolsTransformation({
               toolCall: chunk,
               tools,
               repairToolCall,
-              system,
+              system: system2,
               messages
             });
             controller.enqueue(toolCall);
@@ -42769,7 +42769,7 @@ function streamText({
   model: model2,
   tools,
   toolChoice,
-  system,
+  system: system2,
   prompt: prompt2,
   messages,
   maxRetries,
@@ -42807,7 +42807,7 @@ function streamText({
     settings,
     maxRetries,
     abortSignal,
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     tools,
@@ -42904,7 +42904,7 @@ var DefaultStreamTextResult = class {
     settings,
     maxRetries: maxRetriesArg,
     abortSignal,
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     tools,
@@ -43194,7 +43194,7 @@ var DefaultStreamTextResult = class {
           ...baseTelemetryAttributes,
           // specific settings that only make sense on the outer level:
           "ai.prompt": {
-            input: () => JSON.stringify({ system, prompt: prompt2, messages })
+            input: () => JSON.stringify({ system: system2, prompt: prompt2, messages })
           }
         }
       }),
@@ -43211,7 +43211,7 @@ var DefaultStreamTextResult = class {
           const includeRawChunks2 = self.includeRawChunks;
           stepFinish = new DelayedPromise();
           const initialPrompt = await standardizePrompt({
-            system,
+            system: system2,
             prompt: prompt2,
             messages
           });
@@ -43308,7 +43308,7 @@ var DefaultStreamTextResult = class {
             generatorStream: stream2,
             tracer,
             telemetry,
-            system,
+            system: system2,
             messages: stepInputMessages,
             repairToolCall,
             abortSignal,
@@ -44959,7 +44959,7 @@ async function generateObject(options) {
   const {
     model: modelArg,
     output = "object",
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     maxRetries: maxRetriesArg,
@@ -45018,7 +45018,7 @@ async function generateObject(options) {
           ...baseTelemetryAttributes,
           // specific settings that only make sense on the outer level:
           "ai.prompt": {
-            input: () => JSON.stringify({ system, prompt: prompt2, messages })
+            input: () => JSON.stringify({ system: system2, prompt: prompt2, messages })
           },
           "ai.schema": outputStrategy.jsonSchema != null ? { input: () => JSON.stringify(outputStrategy.jsonSchema) } : void 0,
           "ai.schema.name": schemaName,
@@ -45038,7 +45038,7 @@ async function generateObject(options) {
         let resultProviderMetadata;
         let reasoning;
         const standardizedPrompt = await standardizePrompt({
-          system,
+          system: system2,
           prompt: prompt2,
           messages
         });
@@ -45333,7 +45333,7 @@ function streamObject(options) {
   const {
     model: model2,
     output = "object",
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     maxRetries,
@@ -45379,7 +45379,7 @@ function streamObject(options) {
     maxRetries,
     abortSignal,
     outputStrategy,
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     schemaName,
@@ -45402,7 +45402,7 @@ var DefaultStreamObjectResult = class {
     maxRetries: maxRetriesArg,
     abortSignal,
     outputStrategy,
-    system,
+    system: system2,
     prompt: prompt2,
     messages,
     schemaName,
@@ -45458,7 +45458,7 @@ var DefaultStreamObjectResult = class {
           ...baseTelemetryAttributes,
           // specific settings that only make sense on the outer level:
           "ai.prompt": {
-            input: () => JSON.stringify({ system, prompt: prompt2, messages })
+            input: () => JSON.stringify({ system: system2, prompt: prompt2, messages })
           },
           "ai.schema": outputStrategy.jsonSchema != null ? { input: () => JSON.stringify(outputStrategy.jsonSchema) } : void 0,
           "ai.schema.name": schemaName,
@@ -45470,7 +45470,7 @@ var DefaultStreamObjectResult = class {
       endWhenDone: false,
       fn: async (rootSpan) => {
         const standardizedPrompt = await standardizePrompt({
-          system,
+          system: system2,
           prompt: prompt2,
           messages
         });
@@ -48353,7 +48353,7 @@ function readUIMessageStream({
 }
 
 // lib/main.js
-async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: schema2, ai, core: core2 }) {
+async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: schema2, system: system2, ai, core: core2 }) {
   process.env.AI_GATEWAY_API_KEY = apiKey2;
   if (schema2 && schema2.trim()) {
     let parsedSchema;
@@ -48363,15 +48363,23 @@ async function main({ prompt: prompt2, model: model2, apiKey: apiKey2, schema: s
       throw new Error(`Invalid JSON schema: ${error40.message}`);
     }
     const aiSchema = ai.jsonSchema(parsedSchema);
-    const { object: object3, response } = await ai.generateObject({
+    const options = {
       prompt: prompt2,
       model: model2,
       schema: aiSchema
-    });
+    };
+    if (system2 && system2.trim()) {
+      options.system = system2;
+    }
+    const { object: object3, response } = await ai.generateObject(options);
     core2.setOutput("json", JSON.stringify(object3));
     core2.setOutput("text", JSON.stringify(object3));
   } else {
-    const { text: text2, response } = await ai.generateText({ prompt: prompt2, model: model2 });
+    const options = { prompt: prompt2, model: model2 };
+    if (system2 && system2.trim()) {
+      options.system = system2;
+    }
+    const { text: text2, response } = await ai.generateText(options);
     core2.setOutput("text", text2);
   }
 }
@@ -48381,7 +48389,8 @@ var prompt = import_core7.default.getInput("prompt");
 var model = import_core7.default.getInput("model");
 var apiKey = import_core7.default.getInput("api-key");
 var schema = import_core7.default.getInput("schema");
-var main_default = main({ prompt, model, apiKey, schema, ai: dist_exports, core: import_core7.default }).catch((error40) => {
+var system = import_core7.default.getInput("system");
+var main_default = main({ prompt, model, apiKey, schema, system, ai: dist_exports, core: import_core7.default }).catch((error40) => {
   console.error(error40);
   import_core7.default.setFailed(error40.message);
 });

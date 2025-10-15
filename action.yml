@@ -17,6 +17,9 @@ inputs:
   schema:
     description: "Optional JSON schema for structured output. When provided, the action will use generateObject and return structured JSON data."
     required: false
+  system:
+    description: "Optional system message to set the behavior or context for the AI model"
+    required: false
 outputs:
   text:
     description: "Generated text output"

@@ -34,6 +34,31 @@ jobs:
       - run: echo ${{ steps.prompt.outputs.text }}
 ```
 
+### Text Generation with System Message
+
+You can provide a system message to set the behavior or context for the AI model:
+
+```yaml
+name: Text generation with system message
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-text:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: vercel/ai-action@v2
+        id: prompt
+        with:
+          system: 'You are a kindergarten teacher getting questions by 5 year old students'
+          prompt: 'Why is the sky blue?'
+          model: 'openai/gpt5'
+          api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
+      - run: echo ${{ steps.prompt.outputs.text }}
+```
+
 ### Structured JSON Generation
 
 When you provide a JSON schema, the action will generate structured data that conforms to your schema:
@@ -106,6 +131,10 @@ jobs:
 ### `schema`
 
 **Optional.** A valid JSON Schema for structured output generation. When provided, the action will use `generateObject` to generate structured JSON data that conforms to the schema. The schema should be a valid JSON Schema (draft 2020-12 or compatible).
+
+### `system`
+
+**Optional.** A system message to set the behavior or context for the AI model. This is useful for defining the role, personality, or instructions for the AI assistant. The system message is supported by both `generateText()` and `generateObject()` methods.
 
 ## Outputs
 
