@@ -28,7 +28,7 @@ await test(
                     }
                   },
                   required: ["name", "ingredients", "steps"],
-                  additionalProperties:false
+                  additionalProperties: false
                 }
               },
               required: ["recipe"],
