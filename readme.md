@@ -248,6 +248,7 @@ The generated JSON object when using structured generation with a schema. This o
 
 - [Issue triaging](https://github.com/vercel/ai/blob/e81d017643008eea7e44938e31f032e3bbc9cb3d/.github/workflows/triage.yml#L187-L266)
 - [Calculate version bumps and release notes](https://github.com/gr2m/ai-provider-api-changes/blob/f1191eed3949c321c2f93b178daf5ffdb3d6e7d3/.github/workflows/check-for-changes.yml#L139-L188)
+- [Detect spam in README changes](https://github.com/rbadillap/ai-readme-antispam/blob/c392c8fa46a2fcf6a3023b252b3b0ca89ef82acc/action.yml#L55-L97)
 - _add yours_
 
 ## How it works
