@@ -1,13 +1,14 @@
-import { DEFAULT_ENV, test } from "./main.js";
+import { AI_SDK_HEADERS, DEFAULT_ENV, test } from "./main.js";
 
 // Verify that main works with system message for structured JSON generation
 await test(
   (mockPool) => {
     mockPool
       .intercept({
-        path: `/v1/ai/language-model`,
+        path: `/v4/ai/language-model`,
         method: "POST",
         body: JSON.stringify({
+          toolChoice: { type: "auto" },
           responseFormat: {
             type: "json",
             schema: {
@@ -44,7 +45,8 @@ await test(
               role: "user",
               content: [{ type: "text", text: "Generate a simple pasta recipe" }],
             },
-          ]
+          ],
+          headers: AI_SDK_HEADERS,
         }),
       })
       .reply(
@@ -74,11 +76,10 @@ await test(
               })
             }
           ],
-          finishReason: "stop",
+          finishReason: { unified: "stop", raw: "stop" },
           usage: {
-            inputTokens: 35,
-            outputTokens: 100,
-            totalTokens: 135
+            inputTokens: { total: 35, noCache: 35, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 100, text: 100, reasoning: 0 },
           }
         },
         { headers: { "content-type": "application/json" } }

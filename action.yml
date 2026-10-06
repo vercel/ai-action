@@ -15,7 +15,7 @@ inputs:
     description: "An identifier from the list of provider models supported by the AI Gateway: https://vercel.com/ai-gateway/models"
     required: true
   schema:
-    description: "Optional JSON schema for structured output. When provided, the action will use generateObject and return structured JSON data."
+    description: "Optional JSON schema for structured output. When provided, the action will use generateText with Output.object and return structured JSON data."
     required: false
   system:
     description: "Optional system message to set the behavior or context for the AI model"

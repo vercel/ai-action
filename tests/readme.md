@@ -18,6 +18,12 @@ or with npm
 npm test
 ```
 
+Run the same scenarios against the bundled action:
+
+```console
+npm run test:bundle
+```
+
 ## How the tests work
 
 The output from the tests is captured into a snapshot ([tests/snapshots/index.js.md](snapshots/index.js.md)). It includes all requests sent by our scripts to verify it's working correctly and to prevent regressions.

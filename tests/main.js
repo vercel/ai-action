@@ -1,6 +1,9 @@
 // Base for all `main` tests.
 // @ts-check
 import { MockAgent, setGlobalDispatcher } from "undici";
+import aiPackage from "ai/package.json" with { type: "json" };
+
+export const AI_SDK_HEADERS = { "user-agent": `ai/${aiPackage.version}` };
 
 export const DEFAULT_ENV = {
   GITHUB_REPOSITORY_OWNER: "gr2m",
@@ -26,8 +29,10 @@ export async function test(cb = (_mockPool) => {}, env = DEFAULT_ENV) {
   cb(mockPool);
 
   // Run the main script
-  const { default: promise } = await import("../main.js");
-  await promise;
+  const { default: entrypoint } = await import(
+    process.env.AI_ACTION_TEST_BUNDLE ? "../dist/main.cjs" : "../main.js"
+  );
+  await (entrypoint.default ?? entrypoint);
 
   console.log("--- REQUESTS ---");
   const calls = mockAgent

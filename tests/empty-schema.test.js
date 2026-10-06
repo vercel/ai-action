@@ -1,19 +1,21 @@
-import { DEFAULT_ENV, test } from "./main.js";
+import { AI_SDK_HEADERS, DEFAULT_ENV, test } from "./main.js";
 
 // Verify that main works with empty schema (treats as no schema)
 await test(
   (mockPool) => {
     mockPool
       .intercept({
-        path: `/v1/ai/language-model`,
+        path: `/v4/ai/language-model`,
         method: "POST",
         body: JSON.stringify({
+          toolChoice: { type: "auto" },
           prompt: [
             {
               role: "user",
               content: [{ type: "text", text: "Why is the sky blue?" }],
             },
           ],
+          headers: AI_SDK_HEADERS,
         }),
       })
       .reply(
@@ -25,11 +27,10 @@ await test(
               text: "The sky appears blue due to Rayleigh scattering of sunlight by molecules in Earth's atmosphere."
             }
           ],
-          finishReason: "stop",
+          finishReason: { unified: "stop", raw: "stop" },
           usage: {
-            inputTokens: 12,
-            outputTokens: 20,
-            totalTokens: 32
+            inputTokens: { total: 12, noCache: 12, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 20, text: 20, reasoning: 0 },
           }
         },
         { headers: { "content-type": "application/json" } }

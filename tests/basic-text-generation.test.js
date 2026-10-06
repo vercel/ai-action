@@ -1,19 +1,21 @@
-import { DEFAULT_ENV, test } from "./main.js";
+import { AI_SDK_HEADERS, DEFAULT_ENV, test } from "./main.js";
 
 // Verify that main works with a custom GitHub API URL passed as `github-api-url` input
 await test(
   (mockPool) => {
     mockPool
       .intercept({
-        path: `/v1/ai/language-model`,
+        path: `/v4/ai/language-model`,
         method: "POST",
         body: JSON.stringify({
+          toolChoice: { type: "auto" },
           prompt: [
             {
               role: "user",
               content: [{ type: "text", text: "Why is the sky blue?" }],
             },
           ],
+          headers: AI_SDK_HEADERS,
         }),
       })
       .reply(
@@ -49,13 +51,10 @@ await test(
               },
             },
           ],
-          finishReason: "stop",
+          finishReason: { unified: "stop", raw: "stop" },
           usage: {
-            inputTokens: 12,
-            outputTokens: 422,
-            totalTokens: 434,
-            reasoningTokens: 256,
-            cachedInputTokens: 0,
+            inputTokens: { total: 12, noCache: 12, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 422, text: 166, reasoning: 256 },
           },
           providerMetadata: {
             openai: {
