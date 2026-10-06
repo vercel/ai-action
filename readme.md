@@ -27,7 +27,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
@@ -51,7 +51,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: prompt
         with:
           system: 'You are a kindergarten teacher getting questions by 5 year old students'
@@ -76,7 +76,7 @@ jobs:
   generate-recipe:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: recipe
         with:
           prompt: 'Generate a lasagna recipe'
@@ -136,7 +136,7 @@ jobs:
     steps:
       - name: Determine if issue is spam
         id: spam-detection
-        uses: vercel/ai-action@v2
+        uses: vercel/ai-action@v3
         with:
           model: 'openai/gpt-4o'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
