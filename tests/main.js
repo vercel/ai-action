@@ -1,6 +1,7 @@
 // Base for all `main` tests.
 // @ts-check
 import { MockAgent, setGlobalDispatcher } from "undici";
+import assert from "node:assert/strict";
 import aiPackage from "ai/package.json" with { type: "json" };
 
 export const AI_SDK_HEADERS = { "user-agent": `ai/${aiPackage.version}` };
@@ -39,6 +40,10 @@ export async function test(cb = (_mockPool) => {}, env = DEFAULT_ENV) {
     .getCallHistory()
     .calls()
     .map((call) => {
+      assert(
+        call.headers.authorization === `Bearer ${process.env["INPUT_API-KEY"]}`,
+        "Gateway authorization must match the action's api-key input"
+      );
       const route = `${call.method} ${call.path}`;
       if (call.method === "GET") return route;
 
