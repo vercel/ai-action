@@ -10,13 +10,14 @@
   "scripts": {
     "build": "esbuild main.js --bundle --outdir=dist --out-extension:.js=.cjs --platform=node --packages=bundle",
     "test": "c8 --100 ava tests/index.js",
+    "test:bundle": "npm run build && AI_ACTION_TEST_BUNDLE=1 ava tests/index.js",
     "coverage": "c8 report --reporter html",
     "postcoverage": "open-cli coverage/index.html"
   },
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "ai": "^5.0.19"
+    "ai": "^7.0.128"
   },
   "devDependencies": {
     "ava": "^6.4.1",

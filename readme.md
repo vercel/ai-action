@@ -27,7 +27,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: prompt
         with:
           prompt: 'Why is the sky blue?'
@@ -51,7 +51,7 @@ jobs:
   generate-text:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: prompt
         with:
           system: 'You are a kindergarten teacher getting questions by 5 year old students'
@@ -76,7 +76,7 @@ jobs:
   generate-recipe:
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/ai-action@v2
+      - uses: vercel/ai-action@v3
         id: recipe
         with:
           prompt: 'Generate a lasagna recipe'
@@ -136,7 +136,7 @@ jobs:
     steps:
       - name: Determine if issue is spam
         id: spam-detection
-        uses: vercel/ai-action@v2
+        uses: vercel/ai-action@v3
         with:
           model: 'openai/gpt-4o'
           api-key: ${{ secrets.AI_GATEWAY_API_KEY }}
@@ -228,11 +228,11 @@ Sanitizing `NUMBER` is not necessary, but it's easier to just in general utilize
 
 ### `schema`
 
-**Optional.** A valid JSON Schema for structured output generation. When provided, the action will use `generateObject` to generate structured JSON data that conforms to the schema. The schema should be a valid JSON Schema (draft 2020-12 or compatible).
+**Optional.** A valid JSON Schema for structured output generation. When provided, the action will use `generateText` with `Output.object` to generate structured JSON data that conforms to the schema. The schema should be a valid JSON Schema (draft 2020-12 or compatible).
 
 ### `system`
 
-**Optional.** A system message to set the behavior or context for the AI model. This is useful for defining the role, personality, or instructions for the AI assistant. The system message is supported by both `generateText()` and `generateObject()` methods.
+**Optional.** A system message to set the behavior or context for the AI model. This is useful for defining the role, personality, or instructions for the AI assistant. The action passes this input as the AI SDK’s `instructions` option for both text and structured JSON generation.
 
 ## Outputs
 
@@ -256,7 +256,7 @@ The generated JSON object when using structured generation with a schema. This o
 The action is utilizing the [AI SDK](https://ai-sdk.dev/) to send requests to the [AI Gateway](https://vercel.com/ai-gateway).
 
 - **Text Generation**: Uses [`generateText()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-text#generatetext) for basic text generation
-- **Structured Generation**: Uses [`generateObject()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-object) when a JSON schema is provided, ensuring the output conforms to your specified structure
+- **Structured Generation**: Uses [`generateText()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-text) with [`Output.object()`](https://ai-sdk.dev/docs/reference/ai-sdk-core/output) when a JSON schema is provided, ensuring the output conforms to your specified structure
 
 ## Contributing
 

@@ -1,13 +1,14 @@
-import { DEFAULT_ENV, test } from "./main.js";
+import { AI_SDK_HEADERS, DEFAULT_ENV, test } from "./main.js";
 
 // Verify that main works with system message for text generation
 await test(
   (mockPool) => {
     mockPool
       .intercept({
-        path: `/v1/ai/language-model`,
+        path: `/v4/ai/language-model`,
         method: "POST",
         body: JSON.stringify({
+          toolChoice: { type: "auto" },
           prompt: [
             {
               role: "system",
@@ -18,6 +19,7 @@ await test(
               content: [{ type: "text", text: "Why is the sky blue?" }],
             },
           ],
+          headers: AI_SDK_HEADERS,
         }),
       })
       .reply(
@@ -29,11 +31,10 @@ await test(
               text: "The sky is blue because of something called Rayleigh scattering! Imagine tiny air molecules in the sky that act like little prisms. When sunlight comes through, it has all the colors of the rainbow mixed together. The blue light bounces around the most, so we see more blue in the sky!"
             }
           ],
-          finishReason: "stop",
+          finishReason: { unified: "stop", raw: "stop" },
           usage: {
-            inputTokens: 25,
-            outputTokens: 55,
-            totalTokens: 80
+            inputTokens: { total: 25, noCache: 25, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 55, text: 55, reasoning: 0 },
           }
         },
         { headers: { "content-type": "application/json" } }

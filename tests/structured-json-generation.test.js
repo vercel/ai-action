@@ -1,13 +1,14 @@
-import { DEFAULT_ENV, test } from "./main.js";
+import { AI_SDK_HEADERS, DEFAULT_ENV, test } from "./main.js";
 
 // Verify that main works with schema input and returns JSON output
 await test(
   (mockPool) => {
     mockPool
       .intercept({
-        path: `/v1/ai/language-model`,
+        path: `/v4/ai/language-model`,
         method: "POST",
         body: JSON.stringify({
+          toolChoice: { type: "auto" },
           responseFormat: {
             type: "json",
             schema: {
@@ -40,7 +41,8 @@ await test(
               role: "user",
               content: [{ type: "text", text: "Generate a lasagna recipe" }],
             },
-          ]
+          ],
+          headers: AI_SDK_HEADERS,
         }),
       })
       .reply(
@@ -77,11 +79,10 @@ await test(
               })
             }
           ],
-          finishReason: "stop",
+          finishReason: { unified: "stop", raw: "stop" },
           usage: {
-            inputTokens: 45,
-            outputTokens: 150,
-            totalTokens: 195
+            inputTokens: { total: 45, noCache: 45, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 150, text: 150, reasoning: 0 },
           }
         },
         { headers: { "content-type": "application/json" } }
